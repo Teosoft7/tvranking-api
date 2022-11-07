@@ -1,0 +1,4 @@
+flask
+requests
+beatuifulsoup4
+google-cloud-firestore
