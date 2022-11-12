@@ -5,6 +5,7 @@ import requests
 class TVRankScraper:
     def __init__(self):
         print("TVRankScraper initialized")
+        self.status = ""
 
     def get_ratings(self, date, category, area, test=False):
         """ Get ratings from nielsen Korea """
@@ -17,13 +18,17 @@ class TVRankScraper:
         url_string += f"&sub_menu={category}_1"
         url_string += f"&area={area}&begin_date={date}"
 
-        response = requests.get(url_string)
-        parsed_html = BeautifulSoup(response.content.decode(
-            'utf-8', 'replace'), 'html.parser')
-        ranking_tb = parsed_html.body.find_all(
-            'table', attrs={'class': 'ranking_tb'})
+        try:
+            response = requests.get(url_string)
+            parsed_html = BeautifulSoup(response.content.decode(
+                'utf-8', 'replace'), 'html.parser')
+            ranking_tb = parsed_html.body.find_all(
+                'table', attrs={'class': 'ranking_tb'})
 
-        rows = ranking_tb[0].find_all('tr', attrs={'class': None})
+            rows = ranking_tb[0].find_all('tr', attrs={'class': None})
+        except:
+            print("Eror happend while accessing data on Nielsen.")
+            return []
 
         result = []
         i = 0
