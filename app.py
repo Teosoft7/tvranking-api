@@ -15,16 +15,10 @@ def index():
         message='Welcome to the TV Ranking API'
     )
 
-
-@app.route('/ratings', methods=['GET'])
-def ratings_route():
-    """return ratings for date, category, area"""
-    date = request.args.get('date')
-    category = request.args.get('category')
-    area = request.args.get('area')
-
-    print(f"{date}, {category}, {area}")
-
+@app.route('/ratings/<date>/<category>/<area>', methods=['GET'])
+def ratings_date_route(date, category, area):
+    print(f'ratings with date : {date}, {category}, {area}')
+    
     ratings = scrapper.get_ratings(date, category, area)
 
     return jsonify(
